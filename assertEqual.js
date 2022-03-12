@@ -1,33 +1,20 @@
 // FUNCTION IMPLEMENTATION
-const assertEqual = function(actual, expected) {
-  let flag = '';
-  let emoj = '';
-  let compare = '';
-  if (!isNaN(actual) && !isNaN(expected)) {
-    if (actual === expected) {
-      flag = 'Passed';
-      emoj = '✅✅✅';
-      compare = '===';
-    } else {
-      flag = 'Failed';
-      emoj = '🛑🛑🛑';
-      compare = '!==';
-     
-    }
+const assertEqual = function (actual, expected) {
+  let flag = "";
+  let emoj = "";
+  let compare = "";
+  if (actual === expected) {
+    flag = "Passed";
+    emoj = "✅✅✅";
+    compare = "===";
   } else {
-    if (actual.localeCompare(expected) === 0) {
-      flag = 'Passed';
-      emoj = '✅✅✅';
-      compare = '===';
-  
-    } else {
-      flag = 'Failed';
-      emoj = '🛑🛑🛑';
-      compare = '!==';
- 
-    }
+    flag = "Failed";
+    emoj = "🛑🛑🛑";
+    compare = "!==";
   }
-  console.log(`${emoj} Assertion ${flag}: [${actual}] ${compare} [${expected}]`);
+  console.log(
+    `${emoj} Assertion ${flag}: [${actual}] ${compare} [${expected}]`
+  );
 };
 
 // TEST CODE
