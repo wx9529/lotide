@@ -16,39 +16,46 @@ const assertEqual = function (actual, expected) {
   );
 };
 const eqArrays = function (arr1, arr2) {
+  let output = true;
   if (arr1.length !== arr2.length) {
     return false;
   } else {
     for (let i = 0; i < arr1.length; i++) {
-      if (arr1[i] !== arr2[i]) {
-        return false;
+      if (Array.isArray(arr1[i]) && Array.isArray(arr2[i])) {
+        output = output && eqArrays(arr1[i], arr2[i]);
+      } else {
+        if (arr1[i] !== arr2[i]) {
+          output = output && false;
+        }
       }
     }
-    return true;
+    return output;
   }
 };
 
 const eqObjects = function (object1, object2) {
-  if (Object.keys(object1).length === Object.keys(object2).length) {
+  let output = true;
+  if (Object.keys(object1).length !== Object.keys(object2).length) {
+    return false;
+  } else {
     for (const item in object1) {
       if (Array.isArray(object1[item]) && Array.isArray(object2[item])) {
-        return eqArrays(object1[item], object2[item]);
+        output = output && eqArrays(object1[item], object2[item]);
       } else if (
         !Array.isArray(object1[item]) &&
         object1[item] instanceof Object &&
         object2[item] instanceof Object &&
         !Array.isArray(object2[item])
       ) {
-        return eqObjects(object1[item], object2[item]);
+        output = output && eqObjects(object1[item], object2[item]);
       } else {
         if (object1[item] !== object2[item]) {
-          return false;
+          output = output && false;
         }
       }
     }
-    return true;
+    return output;
   }
-  return false;
 };
 const ab = { a: "1", b: "2" };
 const ba = { b: "2", a: "1" };
@@ -75,6 +82,21 @@ assertEqual(
   eqObjects(
     { a: { y: 0, z: 1 }, b: 2, c: { x: { m: { r: { ff: { k: 0 } } } } } },
     { a: { y: 0, z: 1 }, b: 2, c: { x: { m: { r: { ff: { k: 0 } } } } } }
+  ),
+  true
+); // => false
+
+assertEqual(
+  eqObjects(
+    { a: { y: 0, z: 1 }, b: 2, c: { x: { m: { r: { ff: { k: 0, l: 9 } } } } } },
+    { a: { y: 0, z: 1 }, b: 2, c: { x: { m: { r: { ff: { k: 0 } } } } } }
+  ),
+  false
+); // => false
+assertEqual(
+  eqObjects(
+    [1, [2, 3, 4], [9, 0], { l: "p", kk: "pl", hh: { g: "k", cat: "pl" } }],
+    [1, [2, 3, 4], [9, 0], { l: "p", kk: "pl", hh: { g: "k", cat: "pl" } }]
   ),
   true
 ); // => false
