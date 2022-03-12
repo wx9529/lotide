@@ -30,25 +30,51 @@ const assertEqual = function (actual, expected) {
 };
 
 const eqArrays = function (arr1, arr2) {
+  let output = true;
   if (arr1.length !== arr2.length) {
     return false;
   } else {
     for (let i = 0; i < arr1.length; i++) {
-      if (arr1[i] !== arr2[i]) {
-        return false;
+      if (Array.isArray(arr1[i]) && Array.isArray(arr2[i])) {
+        output = output && eqArrays(arr1[i], arr2[i]);
+      } else {
+        if (arr1[i] !== arr2[i]) {
+          output = output && false;
+        }
       }
     }
-    return true;
+    return output;
   }
 };
 
-console.log(eqArrays([1, 2, 3], [1, 2, 3]));
-console.log(eqArrays([1, 2, 3], [3, 2, 1]));
-console.log(eqArrays(["1", "2", "3"], ["1", "2", "3"]));
-console.log(eqArrays(["1", "2", "3"], ["1", "2", 3]));
+console.log(
+  eqArrays(
+    [
+      [2, 3],
+      [4, 5, 6],
+    ],
+    [
+      [2, 3],
+      [4, 5],
+    ]
+  )
+); // => false
 
 assertEqual(eqArrays([1, 2, 3], [1, 2, 3]), true);
 assertEqual(eqArrays([], []), true);
-assertEqual(eqArrays([], [1]), true);
+assertEqual(eqArrays([], [1]), false);
 assertEqual(eqArrays(["s", "f", "q"], ["s", "f", "q"]), true);
-assertEqual(eqArrays(["s", "q"], ["s", "f", "q"]), true);
+assertEqual(eqArrays(["s", "q"], ["s", "f", "q"]), false);
+
+console.log(eqArrays([[2, 3], [4]], [[2, 3], [4]])); // => true
+
+console.log(
+  eqArrays(
+    [[2, 3], [4]],
+    [
+      [2, 3],
+      [4, 5],
+    ]
+  ) // => false
+);
+console.log(eqArrays([[2, 3], [4]], [[2, 3], 4])); // => false
