@@ -9,11 +9,10 @@ const assertArraysEqual = function (arr1, arr2) {
     flag = "Passed";
     emoj = "✅✅✅";
     compare = "===";
-  } else {
-    flag = "Failed";
-    emoj = "🛑🛑🛑";
-    compare = "!==";
   }
+  flag = "Failed";
+  emoj = "🛑🛑🛑";
+  compare = "!==";
   console.log(`${emoj} Assertion ${flag}: [${arr1}] ${compare} [${arr2}]`);
 };
 

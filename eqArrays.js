@@ -6,14 +6,13 @@ const eqArrays = function (arr1, arr2) {
     for (let i = 0; i < arr1.length; i++) {
       if (Array.isArray(arr1[i]) && Array.isArray(arr2[i])) {
         output = output && eqArrays(arr1[i], arr2[i]);
-      } else {
-        if (arr1[i] !== arr2[i]) {
-          output = output && false;
-        }
+      }
+      if (arr1[i] !== arr2[i]) {
+        output = output && false;
       }
     }
     return output;
   }
 };
 
-module.exports = eqArrays
+module.exports = eqArrays;
