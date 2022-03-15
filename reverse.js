@@ -14,4 +14,5 @@ const reverse = function() {
   }
   return res;
 };
-console.log(reverse());
+
+module.exports = reverse;
